@@ -1,3 +1,4 @@
+import { CacheData } from '@/app/types/articleCache';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import {
@@ -14,10 +15,9 @@ import NewsListVertical from '../../components/NewsListVertical/NewsListVertical
 import { useArticlesCache } from '../../context/ArticlesCacheContext';
 import { useFavorites } from '../../context/FavoritesContext';
 import type { Article } from '../../types/news';
-import { CacheData } from '@/app/types/articleCache';
 
 const API_URL = 'https://newsapi.org/v2/everything';
-const API_KEY = '6c1a3cbf3e084ceea7ea877bf1cc921d';
+const API_KEY = process.env.EXPO_PUBLIC_API_URL;
 const PAGE_SIZE = 10;
 
 const categories = [

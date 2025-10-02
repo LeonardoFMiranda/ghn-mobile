@@ -105,7 +105,6 @@ const Header: React.FC<HeaderProps> = ({
     return (
         <View style={styles.header}>
             <View style={styles.navBar}>
-                {/* Menu Icon */}
                 <TouchableOpacity
                     style={styles.menuButton}
                     onPress={() => setSidebarOpen(true)}
@@ -117,40 +116,8 @@ const Header: React.FC<HeaderProps> = ({
                     </View>
                 </TouchableOpacity>
 
-                {/* Logo */}
                 <Text style={styles.navLogo}>GHN</Text>
 
-                {/* Categories - Desktop */}
-                {width > 600 && (
-                    <ScrollView
-                        horizontal
-                        style={styles.headerCategories}
-                        showsHorizontalScrollIndicator={false}
-                    >
-                        {categories.map((cat, idx) => {
-                            const isActive = category === cat.value;
-                            return (
-                                <TouchableOpacity
-                                    key={idx}
-                                    style={[
-                                        styles.headerCategoryButton,
-                                        isActive && styles.activeCategory
-                                    ]}
-                                    onPress={() => handleCategorySelect(cat.value)}
-                                >
-                                    <Text style={[
-                                        styles.headerCategoryButtonText,
-                                        isActive && styles.activeCategoryText
-                                    ]}>
-                                        {cat.label}
-                                    </Text>
-                                </TouchableOpacity>
-                            );
-                        })}
-                    </ScrollView>
-                )}
-
-                {/* Search Container */}
                 <View style={styles.searchContainer}>
                     {!searchVisible ? (
                         <TouchableOpacity
@@ -253,8 +220,8 @@ const styles = StyleSheet.create({
         color: '#fff',
         letterSpacing: 2,
         flex: 1,
-        textAlign: width > 600 ? 'left' : 'center',
-        marginLeft: width > 600 ? 40 : 0,
+        textAlign:'center',
+        marginLeft: 0,
     },
     headerCategories: {
         flex: 2,

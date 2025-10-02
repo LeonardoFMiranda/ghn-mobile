@@ -10,16 +10,16 @@ import {
 } from 'react-native';
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 import NewsListVertical from '@/app/components/NewsListVertical/NewsListVertical';
+import { useArticlesCache } from '@/app/context/ArticlesCacheContext';
+import { CacheData } from '@/app/types/articleCache';
 import { Image } from 'expo-image';
 import ErrorMsg from '../../components/ErrorMsg';
 import MainNewsGrid from '../../components/MainNewsGrid/MainNewsGrid';
 import { useFavorites } from '../../context/FavoritesContext';
 import type { Article } from '../../types/news';
-import { useArticlesCache } from '@/app/context/ArticlesCacheContext';
-import { CacheData } from '@/app/types/articleCache';
 
 const API_URL = 'https://newsapi.org/v2/everything';
-const API_KEY = '6c1a3cbf3e084ceea7ea877bf1cc921d';
+const API_KEY = process.env.EXPO_PUBLIC_API_URL;
 const PAGE_SIZE = 20;
 
 interface BuscaScreenProps {
@@ -247,7 +247,7 @@ const BuscaScreen: React.FC<BuscaScreenProps> = ({ query }) => {
                         </View>
                     )}
 
-                    {!hasMorePages && articles.length > 0 && (
+                    {!hasMorePages && articles.length > 0 && currentQuery !== 'favoritos' && (
                         <View style={styles.endMessage}>
                             <Text style={styles.endMessageText}>
                                 🎉 Você chegou ao final! Todas as notícias foram carregadas.

@@ -60,7 +60,7 @@ const NewsListVertical: React.FC<NewsListVerticalProps> = ({
                         <Text style={styles.placeholderIcon}>📰</Text>
                     </View>
                 )}
-                
+
                 {/* Botão de favorito */}
                 <TouchableOpacity
                     style={styles.favStar}
@@ -70,10 +70,10 @@ const NewsListVertical: React.FC<NewsListVerticalProps> = ({
                     }}
                     activeOpacity={0.7}
                 >
-                    <MaterialIcons 
-                        name={isFavorite(article.url) ? "star" : "star-border"} 
-                        size={24} 
-                        color={isFavorite(article.url) ? "#ffd600" : "#8A8A8A"} 
+                    <MaterialIcons
+                        name={isFavorite(article.url) ? "star" : "star-border"}
+                        size={24}
+                        color={isFavorite(article.url) ? "#ffd600" : "#8A8A8A"}
                     />
                 </TouchableOpacity>
             </View>
@@ -177,10 +177,18 @@ const styles = StyleSheet.create({
         elevation: 3,
     },
     newsListContent: {
-        flex: screenWidth > 900 ? 2 : 1,
-        padding: screenWidth > 900 ? 18 : 14,
+        flex: 2,
+        padding: 18,
         paddingHorizontal: 12,
         justifyContent: 'center',
+        margin: 1,
+        backgroundColor: '#fff',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 3,
+
     },
     newsTitle: {
         fontSize: 18,
