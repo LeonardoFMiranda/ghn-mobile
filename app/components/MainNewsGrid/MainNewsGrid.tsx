@@ -32,7 +32,7 @@ export default function MainNewsGrid({ articles, isFavorite, onFavoriteToggle }:
 
   return (
     <View style={styles.container}>
-     <View style={styles.grid}>
+      <View style={styles.grid}>
         {articles.map((article, index) => (
           <TouchableOpacity
             key={`${article.url}-${index}`}
@@ -63,7 +63,7 @@ export default function MainNewsGrid({ articles, isFavorite, onFavoriteToggle }:
                       {article.source.name}
                     </Text>
                     <Text style={styles.date}>
-                      {new Date(article.publishedAt).toLocaleDateString()}
+                      {new Date(article.publishedAt).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' })}
                     </Text>
                   </View>
                   {index === 0 && <Text style={styles.description}>{article.description}</Text>}
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 8,
     gap: 8,
-  
+
   },
   title: {
     fontWeight: '600',
