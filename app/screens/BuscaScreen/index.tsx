@@ -40,6 +40,7 @@ const BuscaScreen: React.FC<BuscaScreenProps> = ({ query }) => {
     const [currentQuery, setCurrentQuery] = useState(query || '');
     const [showErrorMsg, setShowErrorMsg] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+    const [noMoreNews, setNoMoreNews] = useState(false);
     const { cache, setCache } = useArticlesCache();
 
     const handleFavoriteToggle = (article: Article) => {
@@ -104,8 +105,9 @@ const BuscaScreen: React.FC<BuscaScreenProps> = ({ query }) => {
             console.log('Erro ao buscar artigos:', error);
 
             if (articles.length > 0) {
-                setErrorMessage('Não foi possível carregar mais notícias. Tente novamente.');
+                setErrorMessage('Não há mais notícias para carregar.');
                 setShowErrorMsg(true);
+                setNoMoreNews(true);
             } else {
                 setErrorMessage('Não foi possível carregar mais notícias. Tente novamente.');
                 setShowErrorMsg(true);
@@ -203,7 +205,7 @@ const BuscaScreen: React.FC<BuscaScreenProps> = ({ query }) => {
                             />
                             <Text style={styles.noResultsText}>
                                 Nenhuma notícia encontrada.{'\n'}
-                                O macaquinho está trabalhando triste...
+                                {currentQuery === 'favoritos' ? 'Por favor favorite mais notícias.' : 'O macaquinho está trabalhando triste...'}
                             </Text>
                         </View>
                     ) : (
@@ -233,14 +235,14 @@ const BuscaScreen: React.FC<BuscaScreenProps> = ({ query }) => {
                         </>
                     )}
 
-                    {loadingMore && (
+                    {loadingMore && !noMoreNews &&(
                         <View style={styles.loadingMore}>
                             <ActivityIndicator size="small" color="#d7263d" />
                             <Text style={styles.loadingMoreText}>Carregando mais resultados...</Text>
                         </View>
                     )}
 
-                    {articles.length > 0 && currentQuery !== 'favoritos' && (
+                    {noMoreNews && currentQuery !== 'favoritos' && (
                         <View style={styles.endMessage}>
                             <Text style={styles.endMessageText}>
                                 🎉 Você chegou ao final! Todas as notícias foram carregadas.

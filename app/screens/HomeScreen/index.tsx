@@ -132,7 +132,6 @@ const HomeScreen: React.FC = () => {
 
     useEffect(() => {
         fetchArticles(page, category);
-        console.log(page, ' - asdasdsaadasdasdas');
     }, [page, category]);
 
     useEffect(() => {

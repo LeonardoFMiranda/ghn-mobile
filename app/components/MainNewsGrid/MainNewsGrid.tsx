@@ -42,7 +42,7 @@ export default function MainNewsGrid({ articles, isFavorite, onFavoriteToggle }:
             ]}
             onPress={() => openArticleDetails(article)}
           >
-            {article.urlToImage && (
+            {article.urlToImage ? (
               <ImageBackground
                 source={{ uri: article.urlToImage }}
                 style={styles.image}
@@ -69,6 +69,34 @@ export default function MainNewsGrid({ articles, isFavorite, onFavoriteToggle }:
                   {index === 0 && <Text style={styles.description}>{article.description}</Text>}
                 </View>
               </ImageBackground>
+            ) : (
+              <View style={styles.placeholderContainer}>
+                <MaterialIcons name="article" size={60} color="#ccc" />
+                <Text style={styles.placeholderText}>Sem imagem</Text>
+                
+                <View style={styles.content}>
+                  <Text
+                    style={[
+                      styles.title,
+
+                      index === 0 ? styles.mainTitle : styles.secondaryTitle,
+                      styles.titleNoImage,
+                    ]}
+                    numberOfLines={index === 0 ? 3 : 2}
+                  >
+                    {article.title}
+                  </Text>
+                  <View style={styles.newsMeta}>
+                    <Text style={[styles.source, styles.sourceNoImage]}>
+                      {article.source.name}
+                    </Text>
+                    <Text style={[styles.date, styles.dateNoImage]}>
+                      {new Date(article.publishedAt).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' })}
+                    </Text>
+                  </View>
+                  {index === 0 && <Text style={[styles.description, styles.descriptionNoImage]}>{article.description}</Text>}
+                </View>
+              </View>
             )}
 
             <TouchableOpacity
@@ -192,5 +220,32 @@ const styles = StyleSheet.create({
   favoriteIcon: {
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  placeholderContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f9f9f9',
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#ddd',
+  },
+  placeholderText: {
+    marginTop: 8,
+    fontSize: 14,
+    color: '#999',
+  },
+  titleNoImage: {
+    textAlign: 'center',
+    color: '#333'
+  },
+  sourceNoImage: {
+    color: '#333',
+  },
+  dateNoImage: {
+    color: '#666',
+  },
+  descriptionNoImage: {
+    color: '#333',
   },
 });
