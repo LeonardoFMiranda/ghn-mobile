@@ -16,8 +16,9 @@ import { useArticlesCache } from '../../context/ArticlesCacheContext';
 import { useFavorites } from '../../context/FavoritesContext';
 import type { Article } from '../../types/news';
 
+
 const API_URL = 'https://newsapi.org/v2/everything';
-const API_KEY = process.env.EXPO_PUBLIC_API_URL;
+const API_KEY = process.env.EXPO_PUBLIC_NEWS_API_KEY;
 const PAGE_SIZE = 10;
 
 const categories = [
@@ -65,7 +66,6 @@ const HomeScreen: React.FC = () => {
                 setLoading(false);
                 return;
             } else {
-                console.log(cache, 'usando cache');
                 const response = await fetch(
                     `${API_URL}?q=${selectedCategory}&pageSize=${PAGE_SIZE}&page=${currentPage}&language=pt&apiKey=${API_KEY}`
                 );
@@ -77,10 +77,6 @@ const HomeScreen: React.FC = () => {
 
                 const newArticles = data.articles || [];
 
-                if (newArticles.length < PAGE_SIZE) {
-                    setHasMorePages(false);
-                }
-
                 setCache((prev: CacheData) => ({
                     ...prev,
                     [selectedCategory]: {
@@ -91,7 +87,6 @@ const HomeScreen: React.FC = () => {
 
                 if (currentPage === 1) {
                     setArticles(newArticles);
-                    setHasMorePages(true);
                 } else {
                     setArticles(prev => [...prev, ...newArticles]);
                 }
@@ -137,6 +132,7 @@ const HomeScreen: React.FC = () => {
 
     useEffect(() => {
         fetchArticles(page, category);
+        console.log(page, ' - asdasdsaadasdasdas');
     }, [page, category]);
 
     useEffect(() => {
@@ -144,17 +140,20 @@ const HomeScreen: React.FC = () => {
     }, [category]);
 
     const handleLoadMore = () => {
-        if (!isSearching && !loading && hasMorePages) {
-            setPage(prev => prev + 1);
-        }
+        if (loading) return;
+
+        setPage(prev => prev + 1);
     };
+
 
     const handleScroll = (event: any) => {
         const { layoutMeasurement, contentOffset, contentSize } = event.nativeEvent;
         const paddingToBottom = 200;
-
+        if (
+            isSearching || loading
+        ) return;
         if (layoutMeasurement.height + contentOffset.y >= contentSize.height - paddingToBottom) {
-            handleLoadMore();
+            setPage(prev => prev + 1);
         }
     };
 

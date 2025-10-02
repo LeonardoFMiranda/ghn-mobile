@@ -19,7 +19,7 @@ import { useFavorites } from '../../context/FavoritesContext';
 import type { Article } from '../../types/news';
 
 const API_URL = 'https://newsapi.org/v2/everything';
-const API_KEY = process.env.EXPO_PUBLIC_API_URL;
+const API_KEY = process.env.EXPO_PUBLIC_NEWS_API_KEY;
 const PAGE_SIZE = 20;
 
 interface BuscaScreenProps {
@@ -38,7 +38,6 @@ const BuscaScreen: React.FC<BuscaScreenProps> = ({ query }) => {
     const [isSearching] = useState(false);
     const [page, setPage] = useState(1);
     const [currentQuery, setCurrentQuery] = useState(query || '');
-    const [hasMorePages, setHasMorePages] = useState(true);
     const [showErrorMsg, setShowErrorMsg] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const { cache, setCache } = useArticlesCache();
@@ -69,7 +68,6 @@ const BuscaScreen: React.FC<BuscaScreenProps> = ({ query }) => {
         try {
             if (searchQuery === 'favoritos') {
                 setArticles(favorites);
-                setHasMorePages(false);
                 setLoading(false);
                 setLoadingMore(false);
                 setFirstLoad(false);
@@ -88,12 +86,6 @@ const BuscaScreen: React.FC<BuscaScreenProps> = ({ query }) => {
             // const filtered = (data.articles || []).filter(
             //     (art: Article) => !art.url?.includes('kk.org')
             // );
-
-            if (data.articles && data.articles.length < PAGE_SIZE) {
-                setHasMorePages(false);
-            }
-
-            console.log('Artigos buscados:', data.articles);
 
             setCache((prev: CacheData) => ({
                 ...prev,
@@ -123,7 +115,6 @@ const BuscaScreen: React.FC<BuscaScreenProps> = ({ query }) => {
             setLoading(false);
             setLoadingMore(false);
             setFirstLoad(false);
-            console.log(hasMorePages, ' - ', articles.length, ' - ', currentPage, ' - ', searchQuery);
         }
     };
 
@@ -132,12 +123,12 @@ const BuscaScreen: React.FC<BuscaScreenProps> = ({ query }) => {
 
         setArticles([]);
         setPage(1);
-        setHasMorePages(true);
         fetchArticles(1, currentQuery);
     }, [currentQuery]);
 
     useEffect(() => {
         if (!currentQuery || page === 1) return;
+        console.log(page, ' - asdasdsaadasdasdas');
         fetchArticles(page, currentQuery);
     }, [page]);
 
@@ -148,7 +139,7 @@ const BuscaScreen: React.FC<BuscaScreenProps> = ({ query }) => {
     }, [query]);
 
     const handleLoadMore = () => {
-        if (!isSearching && !loading && hasMorePages) {
+        if (!isSearching && !loading) {
             setPage(prev => prev + 1);
         }
     };
@@ -156,13 +147,15 @@ const BuscaScreen: React.FC<BuscaScreenProps> = ({ query }) => {
     const handleScroll = (event: any) => {
         const { layoutMeasurement, contentOffset, contentSize } = event.nativeEvent;
         const paddingToBottom = 200;
-
+        if (
+            isSearching || loading
+        ) return;
         if (layoutMeasurement.height + contentOffset.y >= contentSize.height - paddingToBottom) {
-            handleLoadMore();
+            setPage(prev => prev + 1);
         }
     };
 
-    
+
 
     const mainArticles = articles.slice(0, 3);
     const listArticles = articles.slice(3);
@@ -224,7 +217,7 @@ const BuscaScreen: React.FC<BuscaScreenProps> = ({ query }) => {
                                 />
                             )}
 
-                            
+
                             {listArticles.length > 0 && (
                                 <>
                                     <Text style={styles.feedTitle}>Mais Notícias</Text>
@@ -247,7 +240,7 @@ const BuscaScreen: React.FC<BuscaScreenProps> = ({ query }) => {
                         </View>
                     )}
 
-                    {!hasMorePages && articles.length > 0 && currentQuery !== 'favoritos' && (
+                    {articles.length > 0 && currentQuery !== 'favoritos' && (
                         <View style={styles.endMessage}>
                             <Text style={styles.endMessageText}>
                                 🎉 Você chegou ao final! Todas as notícias foram carregadas.
