@@ -1,50 +1,55 @@
-# Welcome to your Expo app 👋
+## 🚀 Instalação e Execução
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+1. **Clone o repositório**
 
-## Get started
+   ```bash
+   git clone [https://github.com/LeonardoFMiranda/ghn-mobile.git](https://github.com/LeonardoFMiranda/ghn-mobile.git)
+   ```
+   ```bash
+   cd ghn-mobile
+   ```
 
-1. Install dependencies
-
+3. **Instale as dependências**
    ```bash
    npm install
    ```
 
-2. Start the app
+4. Configure a chave da NewsAPI
+   Crie um arquivo .env na raiz do projeto e adicione:
+   ```EXPO_PUBLIC_NEWS_API_KEY=sua_chave_aqui```
 
+5. Execute o app
    ```bash
-   npx expo start
+   npx expo star
    ```
+   O app estará disponível para uso:
+   Android (Via emulador)
+   Web (Via clicando a tecla W)
+   IOS (Via ter dispositivo fisico)
 
-In the output, you'll find options to open the app in a
+## ✨ Principais Funcionalidades
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- 🔍 **Busca de notícias** com scroll infinito  
+- 📰 **Destaque para as 3 principais notícias** em um grid especial  
+- 📑 **Card vertical** para as demais notícias
+- ⭐ **Favoritos persistentes** via `async-storage`  
+- 📂 **Categorias** com menu lateral (sidebar) estilizado
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+---
 
-## Get a fresh project
+## 🛠️ Decisões Técnicas
 
-When you're ready, run:
+- **React Native + Expo + TypeScript** → Tipagem forte e melhor manutenção  
+- **Componentização** → Componentes reutilizáveis como `MainNewsGrid` e `NewsListVertical` para replicar layouts  
+- **NewsAPI** → Consumo da API pública, com filtro de idioma e domínios indesejados   
+- **Scroll infinito** → Implementado via evento de scroll + paginação da API  
+- **Persistência de favoritos** → `async-storage` para manter favoritos entre sessões  
 
-```bash
-npm run reset-project
-```
+---
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## 📸 Layout
 
-## Learn more
+- Grid especial para destaques  
+- Lista Vertical para demais notícias  
+- Sidebar de categorias  
 
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
